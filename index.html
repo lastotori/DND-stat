@@ -15,7 +15,7 @@
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100dvh; /* better on mobile than 100vh */
+      min-height: 100dvh;
       padding: 16px;
       box-sizing: border-box;
     }
@@ -30,16 +30,9 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.4);
     }
 
-    h2 {
-      font-size: 1.2rem;
-      margin-bottom: 12px;
-    }
+    h2 { font-size: 1.2rem; margin-bottom: 12px; }
 
-    .progress {
-      font-size: 0.85rem;
-      opacity: 0.7;
-      margin-bottom: 10px;
-    }
+    .progress { font-size: 0.85rem; opacity: 0.7; margin-bottom: 10px; }
 
     button {
       margin-top: 10px;
@@ -51,15 +44,10 @@
       color: white;
       font-size: 1rem;
       cursor: pointer;
-      min-height: 48px; /* good touch target */
+      min-height: 48px;
     }
 
     button:hover { background: #45a049; }
-
-    @media (min-width: 600px) {
-      h2 { font-size: 1.4rem; }
-      button { font-size: 1.05rem; }
-    }
   </style>
 </head>
 <body>
@@ -80,126 +68,126 @@
         { text: "6+ miles", effect: { CON: 3 } }
       ]},
       { q: "Resting heart rate (if known)?", answers: [
-        { text: "80+ bpm / don’t know", effect: { CON: 0 } },
-        { text: "70–79 bpm", effect: { CON: 1 } },
-        { text: "60–69 bpm", effect: { CON: 2 } },
-        { text: "< 60 bpm", effect: { CON: 3 } }
+        { text: "80+ / unknown", effect: { CON: 0 } },
+        { text: "70–79", effect: { CON: 1 } },
+        { text: "60–69", effect: { CON: 2 } },
+        { text: "< 60", effect: { CON: 3 } }
       ]},
-      { q: "How many days per year do you miss work/school due to illness?", answers: [
-        { text: "10+ days", effect: { CON: 0 } },
-        { text: "5–10 days", effect: { CON: 1 } },
-        { text: "1–4 days", effect: { CON: 2 } },
-        { text: "0 days", effect: { CON: 3 } }
+      { q: "How many sick days per year?", answers: [
+        { text: "10+", effect: { CON: 0 } },
+        { text: "5–10", effect: { CON: 1 } },
+        { text: "1–4", effect: { CON: 2 } },
+        { text: "0", effect: { CON: 3 } }
       ]},
 
-      { q: "Max weight you can deadlift (approx)?", answers: [
-        { text: "< 100 lbs", effect: { STR: 0 } },
-        { text: "100–200 lbs", effect: { STR: 1 } },
-        { text: "200–350 lbs", effect: { STR: 2 } },
-        { text: "350+ lbs", effect: { STR: 3 } }
+      { q: "Max deadlift (approx)?", answers: [
+        { text: "<100 lbs", effect: { STR: 0 } },
+        { text: "100–200", effect: { STR: 1 } },
+        { text: "200–350", effect: { STR: 2 } },
+        { text: "350+", effect: { STR: 3 } }
       ]},
-      { q: "How many push-ups can you do in one set?", answers: [
-        { text: "< 5", effect: { STR: 0 } },
+      { q: "Push-ups in one set?", answers: [
+        { text: "<5", effect: { STR: 0 } },
         { text: "5–15", effect: { STR: 1 } },
         { text: "16–35", effect: { STR: 2 } },
         { text: "35+", effect: { STR: 3 } }
       ]},
-      { q: "How many days per week do you strength train?", answers: [
+      { q: "Strength training days/week?", answers: [
         { text: "0", effect: { STR: 0 } },
         { text: "1", effect: { STR: 1 } },
         { text: "2–3", effect: { STR: 2 } },
         { text: "4+", effect: { STR: 3 } }
       ]},
 
-      { q: "Can you juggle or perform coordinated hand tasks?", answers: [
-        { text: "No", effect: { DEX: 0 } },
-        { text: "Basic (1–2 objects)", effect: { DEX: 1 } },
-        { text: "Intermediate (3 objects)", effect: { DEX: 2 } },
-        { text: "Advanced (tricks/precision)", effect: { DEX: 3 } }
+      { q: "Juggling / coordination ability?", answers: [
+        { text: "None", effect: { DEX: 0 } },
+        { text: "Basic", effect: { DEX: 1 } },
+        { text: "Intermediate", effect: { DEX: 2 } },
+        { text: "Advanced", effect: { DEX: 3 } }
       ]},
-      { q: "Reaction time (online tests or gaming)?", answers: [
-        { text: "300+ ms", effect: { DEX: 0 } },
-        { text: "250–300 ms", effect: { DEX: 1 } },
-        { text: "200–250 ms", effect: { DEX: 2 } },
-        { text: "< 200 ms", effect: { DEX: 3 } }
+      { q: "Reaction time?", answers: [
+        { text: ">300ms", effect: { DEX: 0 } },
+        { text: "250–300ms", effect: { DEX: 1 } },
+        { text: "200–250ms", effect: { DEX: 2 } },
+        { text: "<200ms", effect: { DEX: 3 } }
       ]},
-      { q: "How often do you play precision-based activities (sports, FPS, instruments)?", answers: [
+      { q: "Precision activities frequency?", answers: [
         { text: "Never", effect: { DEX: 0 } },
         { text: "Occasionally", effect: { DEX: 1 } },
         { text: "Weekly", effect: { DEX: 2 } },
         { text: "Daily", effect: { DEX: 3 } }
       ]},
 
-      { q: "How many books do you read per year?", answers: [
+      { q: "Books per year?", answers: [
         { text: "0–1", effect: { INT: 0 } },
         { text: "2–5", effect: { INT: 1 } },
         { text: "6–15", effect: { INT: 2 } },
         { text: "15+", effect: { INT: 3 } }
       ]},
-      { q: "Hours per week spent learning (courses, reading, tutorials)?", answers: [
+      { q: "Learning hours per week?", answers: [
         { text: "0–1", effect: { INT: 0 } },
         { text: "2–4", effect: { INT: 1 } },
         { text: "5–10", effect: { INT: 2 } },
         { text: "10+", effect: { INT: 3 } }
       ]},
-      { q: "Highest math level completed?", answers: [
-        { text: "Basic arithmetic", effect: { INT: 0 } },
+      { q: "Highest math level?", answers: [
+        { text: "Basic", effect: { INT: 0 } },
         { text: "Algebra", effect: { INT: 1 } },
         { text: "Calculus", effect: { INT: 2 } },
-        { text: "Advanced math / applied", effect: { INT: 3 } }
+        { text: "Advanced", effect: { INT: 3 } }
       ]},
 
-      { q: "How many hours of sleep do you average per night?", answers: [
-        { text: "< 5", effect: { WIS: 0 } },
-        { text: "5–6", effect: { WIS: 1 } },
-        { text: "7–8", effect: { WIS: 2 } },
-        { text: "8+ consistently", effect: { WIS: 3 } }
+      { q: "Sleep per night?", answers: [
+        { text: "<5h", effect: { WIS: 0 } },
+        { text: "5–6h", effect: { WIS: 1 } },
+        { text: "7–8h", effect: { WIS: 2 } },
+        { text: "8+h", effect: { WIS: 3 } }
       ]},
-      { q: "How often do you check weather/conditions before going out?", answers: [
+      { q: "Check conditions before going out?", answers: [
         { text: "Never", effect: { WIS: 0 } },
         { text: "Sometimes", effect: { WIS: 1 } },
         { text: "Usually", effect: { WIS: 2 } },
         { text: "Always", effect: { WIS: 3 } }
       ]},
-      { q: "How often do you make avoidable mistakes (miss deadlines, forget tasks)?", answers: [
+      { q: "Avoidable mistakes frequency?", answers: [
         { text: "Often", effect: { WIS: 0 } },
         { text: "Sometimes", effect: { WIS: 1 } },
         { text: "Rarely", effect: { WIS: 2 } },
         { text: "Almost never", effect: { WIS: 3 } }
       ]},
 
-      { q: "How many social events do you attend per month?", answers: [
+      { q: "Social events/month?", answers: [
         { text: "0", effect: { CHA: 0 } },
         { text: "1–2", effect: { CHA: 1 } },
         { text: "3–5", effect: { CHA: 2 } },
         { text: "6+", effect: { CHA: 3 } }
       ]},
-      { q: "How often do you initiate conversations with strangers?", answers: [
+      { q: "Initiate conversations?", answers: [
         { text: "Never", effect: { CHA: 0 } },
         { text: "Rarely", effect: { CHA: 1 } },
         { text: "Sometimes", effect: { CHA: 2 } },
         { text: "Often", effect: { CHA: 3 } }
       ]},
-      { q: "How often do you present or speak in front of groups (work/school)?", answers: [
+      { q: "Public speaking frequency?", answers: [
         { text: "Never", effect: { CHA: 0 } },
-        { text: "A few times/year", effect: { CHA: 1 } },
+        { text: "Few/year", effect: { CHA: 1 } },
         { text: "Monthly", effect: { CHA: 2 } },
         { text: "Weekly+", effect: { CHA: 3 } }
       ]},
 
-      { q: "How many steps do you average per day?", answers: [
-        { text: "< 3k", effect: { CON: 0 } },
-        { text: "3k–7k", effect: { CON: 1 } },
-        { text: "7k–12k", effect: { CON: 2 } },
+      { q: "Daily steps?", answers: [
+        { text: "<3k", effect: { CON: 0 } },
+        { text: "3–7k", effect: { CON: 1 } },
+        { text: "7–12k", effect: { CON: 2 } },
         { text: "12k+", effect: { CON: 3 } }
       ]},
-      { q: "Weekly time spent on hobbies requiring skill (music, crafts, coding)?", answers: [
-        { text: "0–1 hrs", effect: { DEX: 1, INT: 0 } },
-        { text: "2–4 hrs", effect: { DEX: 1, INT: 1 } },
-        { text: "5–10 hrs", effect: { DEX: 2, INT: 2 } },
-        { text: "10+ hrs", effect: { DEX: 3, INT: 2 } }
+      { q: "Skill hobby hours/week?", answers: [
+        { text: "0–1", effect: { DEX: 1, INT: 0 } },
+        { text: "2–4", effect: { DEX: 1, INT: 1 } },
+        { text: "5–10", effect: { DEX: 2, INT: 2 } },
+        { text: "10+", effect: { DEX: 3, INT: 2 } }
       ]},
-      { q: "How many hours per week do you exercise?", answers: [
+      { q: "Exercise hours/week?", answers: [
         { text: "0", effect: { STR: 0, CON: 0 } },
         { text: "1–2", effect: { STR: 1, CON: 1 } },
         { text: "3–5", effect: { STR: 2, CON: 2 } },
@@ -213,6 +201,7 @@
       const q = questions[currentQuestion];
       document.getElementById("question").innerText = q.q;
       document.getElementById("progress").innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
+
       const answersDiv = document.getElementById("answers");
       answersDiv.innerHTML = "";
 
@@ -234,35 +223,48 @@
     }
 
     function showResults() {
-      let resultText = "Your D&D Stats:\n";
       let resultHTML = "<h2>Your D&D Stats</h2>";
 
-      for (let stat in stats) {
+      const order = ["STR","DEX","CON","WIS","INT","CHA"];
+      let parts = [];
+
+      for (let stat of order) {
         const value = Math.max(6, stats[stat]);
-        resultHTML += `<p style=\"font-size:1.1rem; margin:6px 0;\">${stat}: <strong>${value}</strong></p>`;
-        resultText += `${stat}: ${value}\n`;
+        resultHTML += `<p style="font-size:1.1rem; margin:6px 0;">${stat}: <strong>${value}</strong></p>`;
+        parts.push(`${stat}:(${value})`);
       }
 
-      resultHTML += `<button onclick=\"copyResults()\">Copy Results</button>`;
-      resultHTML += "<button onclick='location.reload()'>Retake Quiz</button>";
+      const resultText = parts.join("\n");
+
+      resultHTML += `<button onclick="copyResults()">Copy Results</button>`;
+      resultHTML += `<button onclick="location.reload()">Retake Quiz</button>`;
 
       document.querySelector(".container").innerHTML = resultHTML;
-
-      // store for copying
       window._resultText = resultText;
     }
 
     function copyResults() {
       const text = window._resultText || "";
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Results copied to clipboard!");
-      }).catch(() => {
-        alert("Copy failed. You can manually select and copy.");
-      });
-    }: <strong>${value}</strong></p>`;
+
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+        } else {
+          fallbackCopy(text);
+        }
+      } catch (e) {
+        fallbackCopy(text);
       }
-      resultHTML += "<button onclick='location.reload()'>Retake Quiz</button>";
-      document.querySelector(".container").innerHTML = resultHTML;
+    }
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+      alert("Copied!");
     }
 
     showQuestion();
