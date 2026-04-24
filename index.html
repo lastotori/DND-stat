@@ -2,16 +2,69 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>D&D 5e Stat Generator Quiz</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #1e1e2f; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-    .container { background: #2c2c3e; padding: 20px; border-radius: 10px; width: 440px; text-align: center; }
-    button { margin-top: 10px; padding: 10px; width: 100%; border: none; border-radius: 5px; background: #4caf50; color: white; cursor: pointer; }
+    :root { --bg:#1e1e2f; --card:#2c2c3e; --accent:#4caf50; }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: #fff;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100dvh; /* better on mobile than 100vh */
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .container {
+      background: var(--card);
+      padding: 18px;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    h2 {
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+    }
+
+    .progress {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-bottom: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 14px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent);
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      min-height: 48px; /* good touch target */
+    }
+
     button:hover { background: #45a049; }
+
+    @media (min-width: 600px) {
+      h2 { font-size: 1.4rem; }
+      button { font-size: 1.05rem; }
+    }
   </style>
 </head>
 <body>
   <div class="container">
+    <div class="progress" id="progress"></div>
     <h2 id="question">Loading...</h2>
     <div id="answers"></div>
   </div>
@@ -20,7 +73,6 @@
     const stats = { STR: 6, DEX: 6, CON: 6, INT: 6, WIS: 6, CHA: 6 };
 
     const questions = [
-      // CON (objective)
       { q: "How far can you run without stopping?", answers: [
         { text: "< 1 mile", effect: { CON: 0 } },
         { text: "1–3 miles", effect: { CON: 1 } },
@@ -40,7 +92,6 @@
         { text: "0 days", effect: { CON: 3 } }
       ]},
 
-      // STR (objective)
       { q: "Max weight you can deadlift (approx)?", answers: [
         { text: "< 100 lbs", effect: { STR: 0 } },
         { text: "100–200 lbs", effect: { STR: 1 } },
@@ -60,7 +111,6 @@
         { text: "4+", effect: { STR: 3 } }
       ]},
 
-      // DEX (objective-ish)
       { q: "Can you juggle or perform coordinated hand tasks?", answers: [
         { text: "No", effect: { DEX: 0 } },
         { text: "Basic (1–2 objects)", effect: { DEX: 1 } },
@@ -80,7 +130,6 @@
         { text: "Daily", effect: { DEX: 3 } }
       ]},
 
-      // INT (objective)
       { q: "How many books do you read per year?", answers: [
         { text: "0–1", effect: { INT: 0 } },
         { text: "2–5", effect: { INT: 1 } },
@@ -100,7 +149,6 @@
         { text: "Advanced math / applied", effect: { INT: 3 } }
       ]},
 
-      // WIS (behavioral proxies)
       { q: "How many hours of sleep do you average per night?", answers: [
         { text: "< 5", effect: { WIS: 0 } },
         { text: "5–6", effect: { WIS: 1 } },
@@ -120,7 +168,6 @@
         { text: "Almost never", effect: { WIS: 3 } }
       ]},
 
-      // CHA (observable behavior)
       { q: "How many social events do you attend per month?", answers: [
         { text: "0", effect: { CHA: 0 } },
         { text: "1–2", effect: { CHA: 1 } },
@@ -140,7 +187,6 @@
         { text: "Weekly+", effect: { CHA: 3 } }
       ]},
 
-      // mixed objective
       { q: "How many steps do you average per day?", answers: [
         { text: "< 3k", effect: { CON: 0 } },
         { text: "3k–7k", effect: { CON: 1 } },
@@ -166,6 +212,7 @@
     function showQuestion() {
       const q = questions[currentQuestion];
       document.getElementById("question").innerText = q.q;
+      document.getElementById("progress").innerText = `Question ${currentQuestion + 1} of ${questions.length}`;
       const answersDiv = document.getElementById("answers");
       answersDiv.innerHTML = "";
 
@@ -176,6 +223,7 @@
           applyEffect(answer.effect);
           currentQuestion++;
           if (currentQuestion < questions.length) showQuestion(); else showResults();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         };
         answersDiv.appendChild(btn);
       });
@@ -189,7 +237,7 @@
       let resultHTML = "<h2>Your D&D Stats</h2>";
       for (let stat in stats) {
         const value = Math.max(6, stats[stat]);
-        resultHTML += `<p>${stat}: ${value}</p>`;
+        resultHTML += `<p style=\"font-size:1.1rem; margin:6px 0;\">${stat}: <strong>${value}</strong></p>`;
       }
       resultHTML += "<button onclick='location.reload()'>Retake Quiz</button>";
       document.querySelector(".container").innerHTML = resultHTML;
