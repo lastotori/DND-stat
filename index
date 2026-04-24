@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>D&D 5e Stat Generator Quiz</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #1e1e2f; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+    .container { background: #2c2c3e; padding: 20px; border-radius: 10px; width: 440px; text-align: center; }
+    button { margin-top: 10px; padding: 10px; width: 100%; border: none; border-radius: 5px; background: #4caf50; color: white; cursor: pointer; }
+    button:hover { background: #45a049; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="question">Loading...</h2>
+    <div id="answers"></div>
+  </div>
+
+  <script>
+    const stats = { STR: 6, DEX: 6, CON: 6, INT: 6, WIS: 6, CHA: 6 };
+
+    const questions = [
+      // CON (objective)
+      { q: "How far can you run without stopping?", answers: [
+        { text: "< 1 mile", effect: { CON: 0 } },
+        { text: "1–3 miles", effect: { CON: 1 } },
+        { text: "3–6 miles", effect: { CON: 2 } },
+        { text: "6+ miles", effect: { CON: 3 } }
+      ]},
+      { q: "Resting heart rate (if known)?", answers: [
+        { text: "80+ bpm / don’t know", effect: { CON: 0 } },
+        { text: "70–79 bpm", effect: { CON: 1 } },
+        { text: "60–69 bpm", effect: { CON: 2 } },
+        { text: "< 60 bpm", effect: { CON: 3 } }
+      ]},
+      { q: "How many days per year do you miss work/school due to illness?", answers: [
+        { text: "10+ days", effect: { CON: 0 } },
+        { text: "5–10 days", effect: { CON: 1 } },
+        { text: "1–4 days", effect: { CON: 2 } },
+        { text: "0 days", effect: { CON: 3 } }
+      ]},
+
+      // STR (objective)
+      { q: "Max weight you can deadlift (approx)?", answers: [
+        { text: "< 100 lbs", effect: { STR: 0 } },
+        { text: "100–200 lbs", effect: { STR: 1 } },
+        { text: "200–350 lbs", effect: { STR: 2 } },
+        { text: "350+ lbs", effect: { STR: 3 } }
+      ]},
+      { q: "How many push-ups can you do in one set?", answers: [
+        { text: "< 5", effect: { STR: 0 } },
+        { text: "5–15", effect: { STR: 1 } },
+        { text: "16–35", effect: { STR: 2 } },
+        { text: "35+", effect: { STR: 3 } }
+      ]},
+      { q: "How many days per week do you strength train?", answers: [
+        { text: "0", effect: { STR: 0 } },
+        { text: "1", effect: { STR: 1 } },
+        { text: "2–3", effect: { STR: 2 } },
+        { text: "4+", effect: { STR: 3 } }
+      ]},
+
+      // DEX (objective-ish)
+      { q: "Can you juggle or perform coordinated hand tasks?", answers: [
+        { text: "No", effect: { DEX: 0 } },
+        { text: "Basic (1–2 objects)", effect: { DEX: 1 } },
+        { text: "Intermediate (3 objects)", effect: { DEX: 2 } },
+        { text: "Advanced (tricks/precision)", effect: { DEX: 3 } }
+      ]},
+      { q: "Reaction time (online tests or gaming)?", answers: [
+        { text: "300+ ms", effect: { DEX: 0 } },
+        { text: "250–300 ms", effect: { DEX: 1 } },
+        { text: "200–250 ms", effect: { DEX: 2 } },
+        { text: "< 200 ms", effect: { DEX: 3 } }
+      ]},
+      { q: "How often do you play precision-based activities (sports, FPS, instruments)?", answers: [
+        { text: "Never", effect: { DEX: 0 } },
+        { text: "Occasionally", effect: { DEX: 1 } },
+        { text: "Weekly", effect: { DEX: 2 } },
+        { text: "Daily", effect: { DEX: 3 } }
+      ]},
+
+      // INT (objective)
+      { q: "How many books do you read per year?", answers: [
+        { text: "0–1", effect: { INT: 0 } },
+        { text: "2–5", effect: { INT: 1 } },
+        { text: "6–15", effect: { INT: 2 } },
+        { text: "15+", effect: { INT: 3 } }
+      ]},
+      { q: "Hours per week spent learning (courses, reading, tutorials)?", answers: [
+        { text: "0–1", effect: { INT: 0 } },
+        { text: "2–4", effect: { INT: 1 } },
+        { text: "5–10", effect: { INT: 2 } },
+        { text: "10+", effect: { INT: 3 } }
+      ]},
+      { q: "Highest math level completed?", answers: [
+        { text: "Basic arithmetic", effect: { INT: 0 } },
+        { text: "Algebra", effect: { INT: 1 } },
+        { text: "Calculus", effect: { INT: 2 } },
+        { text: "Advanced math / applied", effect: { INT: 3 } }
+      ]},
+
+      // WIS (behavioral proxies)
+      { q: "How many hours of sleep do you average per night?", answers: [
+        { text: "< 5", effect: { WIS: 0 } },
+        { text: "5–6", effect: { WIS: 1 } },
+        { text: "7–8", effect: { WIS: 2 } },
+        { text: "8+ consistently", effect: { WIS: 3 } }
+      ]},
+      { q: "How often do you check weather/conditions before going out?", answers: [
+        { text: "Never", effect: { WIS: 0 } },
+        { text: "Sometimes", effect: { WIS: 1 } },
+        { text: "Usually", effect: { WIS: 2 } },
+        { text: "Always", effect: { WIS: 3 } }
+      ]},
+      { q: "How often do you make avoidable mistakes (miss deadlines, forget tasks)?", answers: [
+        { text: "Often", effect: { WIS: 0 } },
+        { text: "Sometimes", effect: { WIS: 1 } },
+        { text: "Rarely", effect: { WIS: 2 } },
+        { text: "Almost never", effect: { WIS: 3 } }
+      ]},
+
+      // CHA (observable behavior)
+      { q: "How many social events do you attend per month?", answers: [
+        { text: "0", effect: { CHA: 0 } },
+        { text: "1–2", effect: { CHA: 1 } },
+        { text: "3–5", effect: { CHA: 2 } },
+        { text: "6+", effect: { CHA: 3 } }
+      ]},
+      { q: "How often do you initiate conversations with strangers?", answers: [
+        { text: "Never", effect: { CHA: 0 } },
+        { text: "Rarely", effect: { CHA: 1 } },
+        { text: "Sometimes", effect: { CHA: 2 } },
+        { text: "Often", effect: { CHA: 3 } }
+      ]},
+      { q: "How often do you present or speak in front of groups (work/school)?", answers: [
+        { text: "Never", effect: { CHA: 0 } },
+        { text: "A few times/year", effect: { CHA: 1 } },
+        { text: "Monthly", effect: { CHA: 2 } },
+        { text: "Weekly+", effect: { CHA: 3 } }
+      ]},
+
+      // mixed objective
+      { q: "How many steps do you average per day?", answers: [
+        { text: "< 3k", effect: { CON: 0 } },
+        { text: "3k–7k", effect: { CON: 1 } },
+        { text: "7k–12k", effect: { CON: 2 } },
+        { text: "12k+", effect: { CON: 3 } }
+      ]},
+      { q: "Weekly time spent on hobbies requiring skill (music, crafts, coding)?", answers: [
+        { text: "0–1 hrs", effect: { DEX: 1, INT: 0 } },
+        { text: "2–4 hrs", effect: { DEX: 1, INT: 1 } },
+        { text: "5–10 hrs", effect: { DEX: 2, INT: 2 } },
+        { text: "10+ hrs", effect: { DEX: 3, INT: 2 } }
+      ]},
+      { q: "How many hours per week do you exercise?", answers: [
+        { text: "0", effect: { STR: 0, CON: 0 } },
+        { text: "1–2", effect: { STR: 1, CON: 1 } },
+        { text: "3–5", effect: { STR: 2, CON: 2 } },
+        { text: "6+", effect: { STR: 3, CON: 3 } }
+      ]}
+    ];
+
+    let currentQuestion = 0;
+
+    function showQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("question").innerText = q.q;
+      const answersDiv = document.getElementById("answers");
+      answersDiv.innerHTML = "";
+
+      q.answers.forEach(answer => {
+        const btn = document.createElement("button");
+        btn.innerText = answer.text;
+        btn.onclick = () => {
+          applyEffect(answer.effect);
+          currentQuestion++;
+          if (currentQuestion < questions.length) showQuestion(); else showResults();
+        };
+        answersDiv.appendChild(btn);
+      });
+    }
+
+    function applyEffect(effect) {
+      for (let key in effect) stats[key] += effect[key];
+    }
+
+    function showResults() {
+      let resultHTML = "<h2>Your D&D Stats</h2>";
+      for (let stat in stats) {
+        const value = Math.max(6, stats[stat]);
+        resultHTML += `<p>${stat}: ${value}</p>`;
+      }
+      resultHTML += "<button onclick='location.reload()'>Retake Quiz</button>";
+      document.querySelector(".container").innerHTML = resultHTML;
+    }
+
+    showQuestion();
+  </script>
+</body>
+</html>
