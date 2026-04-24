@@ -234,10 +234,32 @@
     }
 
     function showResults() {
+      let resultText = "Your D&D Stats:\n";
       let resultHTML = "<h2>Your D&D Stats</h2>";
+
       for (let stat in stats) {
         const value = Math.max(6, stats[stat]);
         resultHTML += `<p style=\"font-size:1.1rem; margin:6px 0;\">${stat}: <strong>${value}</strong></p>`;
+        resultText += `${stat}: ${value}\n`;
+      }
+
+      resultHTML += `<button onclick=\"copyResults()\">Copy Results</button>`;
+      resultHTML += "<button onclick='location.reload()'>Retake Quiz</button>";
+
+      document.querySelector(".container").innerHTML = resultHTML;
+
+      // store for copying
+      window._resultText = resultText;
+    }
+
+    function copyResults() {
+      const text = window._resultText || "";
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Results copied to clipboard!");
+      }).catch(() => {
+        alert("Copy failed. You can manually select and copy.");
+      });
+    }: <strong>${value}</strong></p>`;
       }
       resultHTML += "<button onclick='location.reload()'>Retake Quiz</button>";
       document.querySelector(".container").innerHTML = resultHTML;
